@@ -11,6 +11,7 @@ public class ServerWindow extends JFrame {
     private static final int WINDOW_POSX = 300;
     private static final int WINDOW_POSY = 300;
     private static final String STATUS_TEXT = "Статус: ";
+    public static boolean getStatus = true;
     private static boolean serverState = false;
 
     JButton btnStart = new JButton("Включить сервер");
@@ -18,16 +19,16 @@ public class ServerWindow extends JFrame {
     JTextArea text = new JTextArea();
 
     ServerWindow() {
-        loging("Сервер включен");
+        loggingServer("Сервер включен");
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 if (serverState = true) {
                     serverState = false;
                     statusTextChanging();
-                    loging(null);
+                    loggingServer(null);
                 }
-                loging("Сервер выключен");
+                loggingServer("Сервер выключен");
 
                 System.exit(0);
             }
@@ -74,11 +75,11 @@ public class ServerWindow extends JFrame {
             if (!serverState) {
                 serverState = true;
                 statusTextChanging();
-                loging(null);
+                loggingServer(null);
             } else {
                 serverState = false;
                 statusTextChanging();
-                loging(null);
+                loggingServer(null);
             }
         }
     }
@@ -91,7 +92,7 @@ public class ServerWindow extends JFrame {
         }
     }
 
-    private void loging(String stat) {
+    private void loggingServer(String stat) {
         try (FileWriter writer = new FileWriter("ServerLog.txt", true)) {
             if (stat != null) {
                 writer.write(new Date() + ": " + stat + "\n");
@@ -106,8 +107,9 @@ public class ServerWindow extends JFrame {
     private void notification(String text) {
         JOptionPane.showMessageDialog(null, text);
     }
-    public boolean getStatus(){
+    public static boolean getStatus(){
         return serverState;
     }
+
 
 }
