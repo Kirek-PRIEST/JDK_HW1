@@ -11,7 +11,6 @@ public class ServerWindow extends JFrame {
     private static final int WINDOW_POSX = 300;
     private static final int WINDOW_POSY = 300;
     private static final String STATUS_TEXT = "Статус: ";
-    public static boolean getStatus = true;
     private static boolean serverState = false;
 
     JButton btnStart = new JButton("Включить сервер");

@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        new ServerWindow();
+        ServerWindow serverWindow = new ServerWindow();
 
-        new ClientWindow();
+        new ClientWindow(serverWindow);
     }
 }

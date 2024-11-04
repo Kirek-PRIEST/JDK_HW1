@@ -17,10 +17,13 @@ public class ClientWindow extends JFrame {
     private static JTextField port = new JTextField();
     private static JTextField userName = new JTextField("max");
     private static JTextArea chat = new JTextArea();
+    private static JButton btnLogin = new JButton("Login");
     private String chatName = userName.getText() + ".txt";
+    private ServerWindow server;
 
 
-    ClientWindow() {
+    ClientWindow(ServerWindow server) {
+        this.server = server;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocation(WINDOW_POSX, WINDOW_POSY);
         setSize(WINDOW_WEIGHT, WINDOW_HEIGHT);
@@ -32,7 +35,7 @@ public class ClientWindow extends JFrame {
 
 
         add(chat, BorderLayout.CENTER);
-        chatView();
+
 
         JPanel massagePanel = messagePanel();
         add(massagePanel, BorderLayout.SOUTH);
@@ -44,14 +47,40 @@ public class ClientWindow extends JFrame {
         });
 
         setVisible(true);
+        //chatView();
+        btnLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logIn();
+            }
+        });
 
+    }
+
+    private void logIn() {
+        chatName = userName.getText() + ".txt";
+        if (!server.getStatus()) {
+            chat.setText("Сервер не подключен");
+        }else {
+            String text;
+            chat.setText("");
+            try (BufferedReader reader = new BufferedReader(new FileReader(chatName))) {
+                while ((text = reader.readLine()) != null) {
+                    System.out.println(text + "\n");
+                    chat.append(text + "\n");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     private static JPanel connectingPanel() {
         JTextArea ipArea = new JTextArea("IP");
         JTextArea portArea = new JTextArea("Port");
         JTextArea userNameArea = new JTextArea("Username");
-        JButton btnLogin = new JButton("Login");
         JPanel dataPanel = new JPanel(new GridLayout(3, 3));
         dataPanel.add(ipArea);
         dataPanel.add(portArea);
@@ -62,7 +91,8 @@ public class ClientWindow extends JFrame {
         dataPanel.add(btnLogin);
         return dataPanel;
     }
-    private static JPanel messagePanel(){
+
+    private static JPanel messagePanel() {
 
         JPanel dataPanel = new JPanel(new GridLayout(1, 2));
         dataPanel.add(massageArea);
@@ -71,7 +101,7 @@ public class ClientWindow extends JFrame {
 
     }
 
-    private void massageSending(){
+    private void massageSending() {
         loggingChat();
         chat.append(userName.getText() + " > " + new Date() + ": " + massageArea.getText() + "\n");
         massageArea.setText("");
@@ -79,19 +109,18 @@ public class ClientWindow extends JFrame {
     }
 
 
-    private void loggingChat(){
+    private void loggingChat() {
         try (FileWriter writer = new FileWriter(chatName, true)) {
-                writer.write(userName.getText() + " > " + new Date() + ": " + massageArea.getText() + "\n");
+            writer.write(userName.getText() + " > " + new Date() + ": " + massageArea.getText() + "\n");
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    private void chatView(){
-        while (!ServerWindow.getStatus) {
 
-            chatView();
-
+    private void chatView() {
+        while (!server.getStatus()) {
+            chat.setText("Сервер не подключен");
         }
         String text;
         try (BufferedReader reader = new BufferedReader(new FileReader(chatName))) {
