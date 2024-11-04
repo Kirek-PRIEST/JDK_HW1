@@ -8,8 +8,8 @@ import java.util.Date;
 public class ClientWindow extends JFrame {
     private static final int WINDOW_HEIGHT = 250;
     private static final int WINDOW_WEIGHT = 400;
-    private static final int WINDOW_POSX = 300;
-    private static final int WINDOW_POSY = 300;
+    private static final int WINDOW_POSX = 500;
+    private static final int WINDOW_POSY = 500;
 
     private static JTextField massageArea = new JTextField();
     private static final JButton btnSend = new JButton("Отправить");
@@ -33,7 +33,7 @@ public class ClientWindow extends JFrame {
         JPanel dataPanel = connectingPanel();
         add(dataPanel, BorderLayout.NORTH);
 
-
+        chat.setEditable(false);
         add(chat, BorderLayout.CENTER);
 
 
@@ -82,6 +82,9 @@ public class ClientWindow extends JFrame {
         JTextArea portArea = new JTextArea("Port");
         JTextArea userNameArea = new JTextArea("Username");
         JPanel dataPanel = new JPanel(new GridLayout(3, 3));
+        ipArea.setEditable(false);
+        portArea.setEditable(false);
+        userNameArea.setEditable(false);
         dataPanel.add(ipArea);
         dataPanel.add(portArea);
         dataPanel.add(userNameArea);
