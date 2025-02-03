@@ -16,6 +16,8 @@ public class ClientWindow extends JFrame implements ClientView {
     private static final int WINDOW_POSX = 700;
     private static final int WINDOW_POSY = 300;
 
+    private static int positionShift = 0;
+
 
     private JTextField massageArea = new JTextField();
     private final JButton btnSend = new JButton("Отправить");
@@ -65,15 +67,18 @@ public class ClientWindow extends JFrame implements ClientView {
 
     }
 
+    //создаёт само окно без наполнения
     private void windowCreation() {
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocation(WINDOW_POSX, WINDOW_POSY);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLocation(WINDOW_POSX + positionShift, WINDOW_POSY + positionShift);
         setSize(WINDOW_WEIGHT, WINDOW_HEIGHT);
         setTitle("Клиент Чата");
         setResizable(true);
+        positionShift += 30;
 
-    } //создаёт само окно без наполнения
+    }
 
+    // создаёт и добавляет поля для подключения к серверу
     private void connectingPanel() {
         dataPanel = new JPanel(new GridLayout(3, 3));
         hideDataPanel = new JPanel();
@@ -93,33 +98,40 @@ public class ClientWindow extends JFrame implements ClientView {
         dataPanel.add(btnLogin);
         dataPanel.add(btnLogOut);
         this.add(dataPanel, BorderLayout.NORTH);
-       // this.add(hideDataPanel, BorderLayout.NORTH);
 
-    } // создаёт и добавляет поля для подключения к серверу
+    }
 
+    // создаёт и добавляет поле для отправки сообщения
     private void messagePanel() {
         JPanel dataPanel = new JPanel(new GridLayout(1, 2));
         dataPanel.add(massageArea);
         dataPanel.add(btnSend);
         btnSend.setEnabled(false);
         this.add(dataPanel, BorderLayout.SOUTH);
-    } // создаёт и добавляет поле для отправки сообщения
+    }
 
+    // добавление поля чата
     private void chatField() {
         chat.setEditable(false);
         this.add(new JScrollPane(chat));
-    } // добавление поля чата
+    }
 
-    public void changeVisibleConnection(boolean action){
+
+
+    // меняет доступность кнопок при подключении или отключении сервера
+    public void changeVisibleConnection(boolean action) {
         if ((action)) {
             btnLogin.setEnabled(false);
             btnLogOut.setEnabled(true);
             btnSend.setEnabled(true);
-        }else {
+        } else {
             btnLogOut.setEnabled(false);
             btnLogin.setEnabled(true);
             btnSend.setEnabled(false);
         }
+    }
+    public String getUserName(){
+        return userName.getText();
     }
 
     @Override
@@ -130,6 +142,7 @@ public class ClientWindow extends JFrame implements ClientView {
 
     @Override
     public void logIn() {
+        chat.setText("");
         client.connectingToServer(userName.getText());
 
     }
@@ -137,6 +150,8 @@ public class ClientWindow extends JFrame implements ClientView {
     @Override
     public void logOut() {
         client.disconnectingFromServer();
+        chat.setText("");
+        chat.append("Вы вышли из чата");
     }
 
     @Override

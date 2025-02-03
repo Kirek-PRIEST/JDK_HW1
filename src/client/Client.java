@@ -2,7 +2,10 @@ package client;
 
 import server.Server;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class Client {
 
@@ -20,20 +23,25 @@ public class Client {
     private void printText(String text) {
         view.massageSanding(text);
     }
-
-    public void massageSending(String massage, String userName) {
-        if(server.getStatus()) {
-            massage = userName + " > " + new Date() + ": " + massage + "\n";
-            printText(massage);
-            server.loggingChat(massage, userName);
+    //Отправка сообщения. Вывод отправленного сообщения в чат
+    public void massageSending(String message, String userName) {
+        if (server.getStatus()) {
+            message = userName + " > " + LocalDate.now() + "/" +
+                    LocalTime.now()
+                    .truncatedTo(ChronoUnit.SECONDS)
+                    .format(DateTimeFormatter.ISO_LOCAL_TIME) +
+                    ": " + message + "\n";
+            printText(server.sendingMassage(message, userName));
         } else {
             printText("Вы отключены от сервера");
             view.changeVisibleConnection(false);
         }
     }
-public String getName(){
+
+    public String getName() {
         return name;
-}
+    }
+
     public void serverAnswer(String text) {
         printText(text);
     }
@@ -41,19 +49,21 @@ public String getName(){
     public void connectingToServer(String name) {
         this.name = name;
         if (server.connectUser(view)) {
+
             printText("Вы подключились к серверу \n");
             connected = true;
-            String log = server.getChat(name);
-            if (log != null){
+            String log = server.getChat();
+            if (log != null) {
                 printText(log);
             }
             view.changeVisibleConnection(true);
-        }else printText("Не удалось подключиться к серверу \n");
+        } else printText("Не удалось подключиться к серверу \n");
     }
-    public void disconnectingFromServer(){
+
+    public void disconnectingFromServer() {
         server.disconnectUser(view);
         view.changeVisibleConnection(false);
-        printText("Вы отклюились от сервера\n");
+        printText("Вы отключились от сервера\n");
     }
 
 

@@ -8,5 +8,6 @@ public class Main {
         Server server = new Server(serverWindow);
 
         new ClientWindow(server);
+        new ClientWindow(server);
     }
 }
