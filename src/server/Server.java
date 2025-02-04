@@ -1,7 +1,6 @@
 package server;
 
 import client.ClientView;
-import client.ClientWindow;
 
 import javax.swing.*;
 import java.time.LocalDate;

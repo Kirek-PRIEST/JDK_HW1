@@ -1,8 +1,5 @@
 package server;
 
-import server.Server;
-import server.ServerView;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

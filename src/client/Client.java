@@ -42,9 +42,6 @@ public class Client {
         return name;
     }
 
-    public void serverAnswer(String text) {
-        printText(text);
-    }
 
     public void connectingToServer(String name) {
         this.name = name;

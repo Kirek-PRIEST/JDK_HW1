@@ -1,7 +1,6 @@
 package client;
 
-import client.Client;
-import client.ClientView;
+
 import server.Server;
 
 import javax.swing.*;
@@ -31,7 +30,6 @@ public class ClientWindow extends JFrame implements ClientView {
     private JPanel dataPanel;
     private Server server;
     private Client client;
-    private String name;
 
 
     public ClientWindow(Server server) {
