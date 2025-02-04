@@ -31,7 +31,7 @@ public class ServerWindow extends JFrame implements ServerView {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (serverState = true) {
+                if (serverState) {
                     serverState = false;
                     server.serverLog("Сервер выключен");
                 } else {

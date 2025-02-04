@@ -116,8 +116,6 @@ public class ClientWindow extends JFrame implements ClientView {
         this.add(new JScrollPane(chat));
     }
 
-
-
     // меняет доступность кнопок при подключении или отключении сервера
     public void changeVisibleConnection(boolean action) {
         if ((action)) {

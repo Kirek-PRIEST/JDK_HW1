@@ -15,10 +15,10 @@ public class Server {
     private static boolean serverState = false;
 
     Repository repo;
-    ServerWindow serverWindow;
+    ServerView serverWindow;
     List<ClientView>usersList;
 
-    public Server(ServerWindow serverWindow) {
+    public Server(ServerView serverWindow) {
         this.serverWindow = serverWindow;
         usersList = new ArrayList<>();
         repo = new TextRepo();
@@ -64,7 +64,7 @@ public class Server {
     }
 
     //Подключение пользователя к серверу путём добавление его в список пользователей
-    public boolean connectUser (ClientWindow clientWindow){
+    public boolean connectUser (ClientView clientWindow){
         if (!serverState){
             return false;
         }else {
@@ -79,7 +79,7 @@ public class Server {
         }
     }
     //отключение пользователя через удаление его из списка пользователей.
-    public void disconnectUser(ClientWindow clientWindow){
+    public void disconnectUser(ClientView clientWindow){
         String message =  LocalDate.now() + "/" +
                 LocalTime.now()
                         .truncatedTo(ChronoUnit.SECONDS)
